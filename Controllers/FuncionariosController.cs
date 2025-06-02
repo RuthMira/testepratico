@@ -28,7 +28,17 @@ public class FuncionariosController : ControllerBase
     {
         var funcionarios = await _context.Funcionarios
             .Include(f => f.Equipe)
+            .Select(f => new FuncionarioDto
+            {
+                Id = f.Id,
+                Nome = f.Nome,
+                Cargo = f.Cargo,
+                Email = f.Email,
+                EquipeId = f.EquipeId,
+                EquipeNome = f.Equipe.Nome
+            })
             .ToListAsync();
+
         return Ok(funcionarios);
     }
 }
